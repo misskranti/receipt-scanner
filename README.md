@@ -30,18 +30,12 @@ Database	SQLite3
 Utils	fs, path, dayjs
 
 🛠️ Getting Started
-1. Clone the Repository
-bash
-Copy
-Edit
-
-cd receipt-scanner
-2. Install Dependencies
+1. Install Dependencies
 bash
 Copy
 Edit
 npm install
-3. Set Up SQLite Database
+2. Set Up SQLite Database
 Create and initialize the database:
 
 bash
