@@ -1,0 +1,52 @@
+%PDF-1.4
+%‚„œ”
+1 0 obj
+<</Type /Catalog/Pages 2 0 R
+>>
+endobj
+
+2 0 obj
+<</Type /Pages/Count 1/Kids[3 0 R]
+>>
+endobj
+
+3 0 obj
+<</Type /Page/Parent 2 0 R/Resources <</Font <</F0 4 0 R
+>>
+/ProcSet[/PDF/Text]>>/MediaBox[0 0 595 842]/Contents 5 0 R
+>>
+endobj
+
+4 0 obj
+<</Type /Font/Subtype /Type1/Name /F0/BaseFont /Helvetica/Encoding /WinAnsiEncoding
+>>
+endobj
+
+5 0 obj
+<</Length 66>>
+stream
+BT 
+12 0 TD
+/Test Store
+14 20 TD
+/Date: 2025-06-27
+14 30 TD
+/Total: $123.45
+ET
+endstream
+endobj
+
+xref
+0 6
+0000000000 65535 f 
+0000000001 00000 n 
+0000000013 00000 n 
+0000000060 00000 n 
+0000000102 00000 n 
+0000000170 00000 n 
+trailer
+<</Root 1 0 R/Size 6
+>>
+startxref
+465
+%%EOF
