@@ -1,52 +1,72 @@
+**🧾 Receipt Scanner**:
 
-🧾 Receipt Scanner Web Application
+---
 
-This project automates the extraction of key data from scanned PDF receipts using OCR (Optical Character Recognition) and stores the results in a structured SQLite database. A RESTful API allows easy uploading, validating, processing, and retrieving of receipt data.
+# 🧾 Receipt Scanner Web Application
 
-✅ Features
-Upload and validate receipt files (.pdf)
+This project is a Node.js-powered web application that automates the extraction of key information from **PDF receipts** using **OCR (Optical Character Recognition)**. It stores extracted data in a **SQLite database** and provides a set of **RESTful APIs** to upload, validate, process, and retrieve receipt data.
 
-Extract essential data using OCR:
+---
 
-Purchase Date
+## ✅ Features
 
-Merchant Name
+* 📤 Upload and validate receipt files (`.pdf`)
+* 🔍 OCR-powered data extraction (using `tesseract.js`) to detect:
 
-Total Amount
+  * Purchase Date
+  * Merchant Name
+  * Total Amount
+* 🗃️ Store raw and extracted data in SQLite
+* 🧩 RESTful API for file operations and receipt metadata
+* 🛡️ Robust error handling for file type, data integrity, and processing failures
 
-Store raw and processed data in SQLite
+---
 
-RESTful APIs for interacting with receipt files and metadata
+## 🧠 Tech Stack
 
-Robust error handling and validation
+| Layer       | Technology       |
+| ----------- | ---------------- |
+| Backend     | Node.js, Express |
+| File Upload | Multer           |
+| OCR Engine  | Tesseract.js     |
+| PDF Parser  | pdf-parse        |
+| Database    | SQLite3          |
+| Utilities   | fs, path, dayjs  |
 
-🧠 Tech Stack
-Layer	Technology
-Backend	Node.js + Express
-File Upload	multer
-OCR	tesseract.js
-PDF Parsing	pdf-parse
-Database	SQLite3
-Utils	fs, path, dayjs
+---
 
-🛠️ Getting Started
-1. Install Dependencies
-bash
-Copy
-Edit
+## 🛠️ Getting Started
+
+### 1. Clone the Repository
+
+```bash
+git clone https://github.com/misskranti/receipt-scanner.git
+cd receipt-scanner
+go to feature/receipt-scanner branch
+```
+
+---
+
+### 2. Install Dependencies
+
+```bash
 npm install
-2. Set Up SQLite Database
-Create and initialize the database:
+```
 
-bash
-Copy
-Edit
+---
+
+### 3. Set Up SQLite Database
+
+Create and initialize local database:
+
+```bash
 sqlite3 database/receipts.db
-Inside the SQLite prompt, run:
+.tables
+```
 
-sql
-Copy
-Edit
+Inside the SQLite prompt, run the following schema:
+
+```sql
 -- Table for uploaded receipt metadata
 CREATE TABLE receipt_file (
   id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -69,37 +89,40 @@ CREATE TABLE receipt (
   created_at TEXT DEFAULT CURRENT_TIMESTAMP,
   updated_at TEXT DEFAULT CURRENT_TIMESTAMP
 );
+
 .quit
-🚀 Running the App
-Start the server:
+```
 
-bash
-Copy
-Edit
+---
+
+### 4. Start the Server
+
+```bash
 node src/server.js
-Server runs at: http://localhost:3000
+```
 
-📮 API Endpoints
-🔹 1. Upload Receipt
-POST /api/upload
+ API is now live at:
+📍 **[http://localhost:3000](http://localhost:3000)**
 
-Form Field: file
+---
 
-Content-Type: multipart/form-data
+## 📮 API Endpoints
 
-Allowed Format: PDF
+---
 
-Example:
+### 🔹 1. Upload Receipt
 
-bash
-Copy
-Edit
+**Endpoint:** `POST /api/upload`
+**Content-Type:** `multipart/form-data`
+**Field:** `file`
+
+```bash
 curl -F "file=@receipt1.pdf" http://localhost:3000/api/upload
-Response:
+```
 
-json
-Copy
-Edit
+**Response:**
+
+```json
 {
   "success": true,
   "message": "Receipt uploaded successfully!",
@@ -109,32 +132,34 @@ Edit
     "filepath": "D:/receipt-processor/database/uploads/receipt1.pdf"
   }
 }
-🔹 2. Validate Receipt
-POST /api/validate
+```
 
-A. File Validation (Auto)
-bash
-Copy
-Edit
+---
+
+### 🔹 2. Validate Receipt
+
+#### A. Auto Validation (on upload)
+
+```bash
 curl -F "file=@receipt1.pdf" http://localhost:3000/api/validate
-B. Manual Validation
-POST /api/validate
+```
 
-Content-Type: application/json
+#### B. Manual Validation
 
-json
-Copy
-Edit
+**Endpoint:** `POST /api/validate`
+**Content-Type:** `application/json`
+
+```json
 {
   "file_id": 17,
   "is_valid": false,
   "invalid_reason": "Unreadable text or format"
 }
-Response:
+```
 
-json
-Copy
-Edit
+**Response:**
+
+```json
 {
   "success": true,
   "message": "File is valid!",
@@ -144,24 +169,21 @@ Edit
     "size": 2652
   }
 }
-🔹 3. Process Receipt (OCR)
-POST /api/process/:fileId
+```
 
-Extracts key data from the uploaded file.
+---
 
-Stores in the receipt table.
+### 🔹 3. Process Receipt (OCR)
 
-Example:
+**Endpoint:** `POST /api/process/:fileId`
 
-bash
-Copy
-Edit
+```bash
 curl -X POST http://localhost:3000/api/process/1
-Response:
+```
 
-json
-Copy
-Edit
+**Response:**
+
+```json
 {
   "success": true,
   "message": "Receipt processed, but some required data is missing. Please review and resubmit.",
@@ -173,18 +195,21 @@ Edit
     "invalid_reason": "Missing required data in receipt."
   }
 }
-🔹 4. Get All Receipts
-GET /api/receipts
+```
 
-bash
-Copy
-Edit
+---
+
+### 🔹 4. Get All Receipts
+
+**Endpoint:** `GET /api/receipts`
+
+```bash
 curl http://localhost:3000/api/receipts
-Response:
+```
 
-json
-Copy
-Edit
+**Response:**
+
+```json
 {
   "receipts": [
     {
@@ -199,18 +224,21 @@ Edit
     }
   ]
 }
-🔹 5. Get Receipt by ID
-GET /api/receipts/:id
+```
 
-bash
-Copy
-Edit
+---
+
+### 🔹 5. Get Receipt by ID
+
+**Endpoint:** `GET /api/receipts/:id`
+
+```bash
 curl http://localhost:3000/api/receipts/1
-Response:
+```
 
-json
-Copy
-Edit
+**Response:**
+
+```json
 {
   "receipt": {
     "id": 1,
@@ -223,25 +251,28 @@ Edit
     "updated_at": "2025-06-28 08:46:14"
   }
 }
-🧪 Sample Data
-The repository includes a pre-populated receipts.db with test records to explore functionality quickly.
+```
 
-⚠️ Error Handling
-Invalid file types
+---
 
-Missing required fields
+---
 
-File not found on disk
+## ⚠️ Error Handling
 
-Graceful handling of database errors
+The app gracefully handles the following issues:
 
-OCR failures with descriptive messages
+* ❌ Invalid file types (non-PDFs)
+* ❌ Missing required fields in uploads
+* 🧾 Missing files on disk
+* 🧠 OCR failures with descriptive fallback messages
+* 💥 Database query failures
 
-📦 Dependencies
-Install via:
+---
 
-bash
-Copy
-Edit
+## 📦 Installable Dependencies
+
+```bash
 npm install express multer sqlite3 tesseract.js pdf-parse dayjs
+```
 
+---
